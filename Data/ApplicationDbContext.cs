@@ -5,7 +5,7 @@ namespace MyFirstEfCoreApp.Data
 {
     public class ApplicationDbContext : DbContext
     {
-        private const string ConnectionString = "Server=MAINA;Database=MyFirstEfCoreDb;User Id=Simon;Password=Maina1234;Integrated Security=False;MultipleActiveResultSets=True;TrustServerCertificate=True";
+        
         public ApplicationDbContext()  {}
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) {}
@@ -14,10 +14,13 @@ namespace MyFirstEfCoreApp.Data
         {
             if(!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer(ConnectionString);
+                optionsBuilder.UseSqlServer("Name=DefaultConnection");
             }
         }
 
         public DbSet<Book> Books { get; set; }
+        public DbSet<Author> Authors { get; set; }
+        public DbSet<Tag> Tags { get; set; }
+        public DbSet<PriceOffer> PriceOffers { get; set; }
     }
 }
