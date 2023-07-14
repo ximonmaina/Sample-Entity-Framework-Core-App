@@ -10,6 +10,8 @@
         public decimal Price { get; set; }
         public string ImageUrl { get; set; }
 
+        public bool SoftDeleted { get; set; }
+
         // -------------------- relationships
         public PriceOffer Promotion { get; set; } // Link to optional one-to-one PriceOffer relationship 
         public ICollection<Review> Reviews { get; set; } // There can be zero to many reviews of the book
