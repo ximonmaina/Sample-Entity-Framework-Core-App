@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MyFirstEfCoreApp.Data;
+using MyFirstEfCoreApp.Data.Entities;
+using MyFirstEfCoreApp.ServiceLayer.AdminServices;
+using MyFirstEfCoreApp.ServiceLayer.AdminServices.Concrete;
 using MyFirstEfCoreApp.ServiceLayer.BookServices.QueryObjects;
 using MyFirstEfCoreApp.ServiceLayer.Concrete;
 using MyFirstEfCoreApp.Services.BookServices.QueryObjects;
@@ -14,12 +17,16 @@ namespace MyFirstEfCoreApp.Controllers
 
         private readonly ApplicationDbContext _db;
         private readonly IBookFilterDropDownService bookFilterDropDownService;
+        private readonly IChangePubDateService _changePubDateService;
 
-        public TestEfCoreController(ApplicationDbContext db, IBookFilterDropDownService bookFilterDropDownService)
+        public TestEfCoreController(ApplicationDbContext db, IBookFilterDropDownService bookFilterDropDownService, IChangePubDateService changePubDateService)
         {
             _db = db;
             this.bookFilterDropDownService = bookFilterDropDownService;
+            _changePubDateService = changePubDateService;
         }
+
+
 
 
 
@@ -51,6 +58,22 @@ namespace MyFirstEfCoreApp.Controllers
                 .FilterBooksBy(filterBy, filterValue);
 
             return Ok(filteredBooks);
+        }
+
+        [HttpGet("get-book-to-update-pub-date")]
+        public ActionResult<ChangePubDateDto> GetBookToUpdate([FromQuery] int id)
+        {
+            var bookToUpdate = _changePubDateService.GetOriginal(id);
+
+            return Ok(bookToUpdate);
+        }
+
+        [HttpPost("update-book-pub-date")]
+        public ActionResult<Book> UpdateBook([FromBody] ChangePubDateDto dto)
+        {
+            var book = _changePubDateService.UpdateBook(dto);
+
+            return Ok(book);
         }
 
     }
