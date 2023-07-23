@@ -29,7 +29,7 @@ namespace MyFirstEfCoreApp.ServiceLayer.AdminServices.Concrete
                 })
                 .Single(x => x.BookId == id);
         }
-
+        
         public Book UpdateBook(ChangePubDateDto dto)
         {
             var book = _context.Books.SingleOrDefault(book => book.BookId == dto.BookId);
